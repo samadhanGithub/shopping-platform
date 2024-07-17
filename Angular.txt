@@ -1,0 +1,680 @@
+*************************** Angular **************************************
+
+* Angular Optimization
+	-Lazy Loading, PreLoading, Pure pipes, trackBy in ngFor, Web Workers, AOT instead of JIT,
+	 micro-frontend, state management, angular libraries wherever needed.
+	-Always use budgets from angular.json
+	"budgets": [
+		{
+		  "type": "initial",
+		  "maximumWarning": "500kb",
+		  "maximumError": "1mb"
+		},
+		{
+		  "type": "anyComponentStyle",
+		  "maximumWarning": "2kb",
+		  "maximumError": "4kb"
+		}
+	],
+	
+	-gzip/Brotli library - to compress bundle size
+	 Gzip and Brotli are compression algorithms commonly used to reduce the size of web assets (such as HTML, CSS, JavaScript, and images) served by web servers. The primary purpose of using these compression techniques in an Angular application (or any web application) is to improve performance by reducing the amount of data that needs to be transferred over the network.
+	 
+	-pako.js - to compress api payload size
+	 Using Pako in an Angular application involves installing the library, importing it into your components or services, and then using the deflate and inflate methods to compress and decompress data. This can be particularly useful for optimizing data transfer and storage.
+	 
+	-Memoization : https://www.youtube.com/watch?v=WbwP4w6TpCk
+	  In computing, memoization or memoisation is an optimization technique used primarily to speed up computer programs by storing the results of expensive function calls to pure functions and returning the cached result when the same inputs occur again.
+	  Memoization eliminates redundant computations by storing and reusing previously calculated results.
+	  Memoization works by creating a cache object that stores the results of a function based on its input arguments. The first time the function is called with a specific set of input arguments, the function is executed as normal, and the result is stored in the cache object.
+	  
+	 -API caching :
+	  Caching involves storing copies of frequently accessed or computed data to avoid the overhead of generating or fetching the same data repeatedly.
+	  Response caching reduces the number of requests a client or proxy makes to a web server.
+	  Can be implement in interceptor(cache interceptor), session/local storage, rxjs share operator and shareReplay 
+	
+* Folder structure(compiler flow):
+  .angular.json : 
+     .properties and configuration of your Angular project.
+     .This is the file which is first referred by the builder to look for
+      all the paths and configurations and to check which is the main file.
+  .main.ts: 
+     .This file acts as the entry point of the application. 
+	 .helps in creating the browser environment for the application to run.
+	 .After this, main.ts file calls the function bootstrapModule(AppModule)
+      which tells the builder to bootstrap the app.
+  .app.module.ts:
+     .has declarations of all the components we are creating within
+      the app module so that angular is aware of them.
+	 .here we can import other modules and use in our app. 
+  .app.component.ts:
+     .This is the file which interacts with the html of the webpage and serves it with the data.
+  .index.html:
+     .Compiler dynamically adds all the javascript files at the end of this file.
+	  Since all the components are now known, the html file calls the root component that is app-root.
+	  
+*main bundle:
+	.polyfills.js: for making our application compatible for different browsers. Because we write the code  with newest features and not all browsers support such features.
+	.scripts.js: contains the scripts we declare in the scripts section of angular.json file
+	.runtime.js: is the webpack loader. This file contains webpack utilities that are needed to load other files
+	.styles.css: contains all styles we declare in styles section of angular.json file
+	.main.js: contains all our code including components (ts, html and css codes), pipes, directives,
+	          services and all other imported modules (including third party).
+    .vendor.js: This file contains any libraries imported into your app (app.module), including the Angular libraries.
+	Third party libraries imported into your app also get compiled into this file (e.g. lodash, moment etc).
+
+*Angular 17 features: 
+   https://www.kellton.com/kellton-tech-blog/angular-17-new-features
+   -By default, the Angular CLI generates standalone components.
+   -Deferred Rendering and Deferrable Views: can be use for section placeholders.
+    allows developers to delay the loading of less critical parts of the page until certain conditions are met, such as when the element enters the viewport, during idle time, on user interaction, or on hover. This helps improve the initial load time and overall performance of applications​ 
+    @defer ( […] ) { 
+      […] 
+	} 
+	@loading (after 150ms; minimum 150ms) { 
+	  […] 
+	} 
+	@placeholder (minimum 150ms) { 
+	  […] 
+	}
+  -New Control Flow Syntax
+   The new block directives @for, @if, and @switch offer a cleaner and more intuitive way to handle control flow in templates, replacing the older syntax like *ngIf and *ngFor.
+   
+    -@for (product of products(); track product.id) {
+		<div class="card">
+			<h2 class="card-title">{{product.productName}}</h2>
+			[…]
+		</div>
+		}
+		@empty {
+			<p class="text-lg">No Products found!</p>
+	}
+
+	-@if (product().discountedPrice && product().discountMinCount) {
+        […]
+	 }
+	 @else if (product().discountedPrice && !product().discountMinCount) {
+		[…]
+	 }
+	 @else {
+		[…]
+	 }
+	
+	-@switch (mode) {
+        @case ('full') {
+        […]
+        }
+		@case ('small') {
+		  […]
+		}
+		@default {
+		  […]
+		}
+	}
+	
+  -SSR and SSG Enhancements: server-side rendering (SSR) and static-site generation (SSG)
+   SSR in Angular enhances performance, SEO, and user experience by rendering the initial page on the server
+  
+  -Build Performance Improvements: Angular 17 uses esbuild and Vite by default for new projects, resulting in significantly faster build times
+  Build Performance with ESBuild: Angular 17 uses ESBuild as its default build tool. ESBuild is a JavaScript bundler that is significantly faster than the previous build tool, Webpack.
+  
+
+*Components:
+	.Components are basically classes that interact with the .html file of the component,
+  	 which gets displayed on the browser.
+	 
+*Decorator:
+	.In angular you create classes for everything, be it components, services, directives, etc.
+    .So, how does angular compiler that compiles your code and transform it into scripts that is ready to be run in browser?
+	 This happens because of decorators. In a simple terms, decorators allows you to attach meta data with the type script class
+	 using which angular knows whether that class is a component or directive or module etc.
+	 .list: @NgModule, @Component, @Injectable, @Directive, @Pipe, @Input, @Output, @HostBinding, @HostListener, @ContentChild,
+			@ContentChildren, @ViewChild, @ViewChildren.
+			
+	.Class decorators, e.g. @Component and @NgModule
+    .Property decorators for properties inside classes, e.g. @Input and @Output
+    .Method decorators for methods inside classes, e.g. @HostListener
+    .Parameter decorators for parameters inside class constructors, e.g. @Inject
+		
+*@Input Decorator:
+	.decorator is used to pass data (property binding) from parent to child component.
+	Example:
+		-child-component
+		<p>Received data: {{ data }}</p>
+		@Input() data: string;
+		
+		-parent-component
+		<app-child [data]="parentData"></app-child>
+		parentData = 'Hello from Parent!';
+	
+*@Output Decorator:
+	.decorator is used to pass data (property binding) from child to parent component.
+	Example:
+		-child-component
+		<button (click)="sendData()">Send Data to Parent</button>
+	    @Output() dataEvent = new EventEmitter<string>();
+	    sendData() {
+		  this.dataEvent.emit('Hello from Child!');
+	    }
+		
+		-parent-component
+		<app-child (dataEvent)="receiveData($event)"></app-child>
+        <p>Received from child: {{ receivedData }}</p>
+		
+		receivedData: string;
+		receiveData(event: string) {
+		  this.receivedData = event;
+		}
+	
+*Module:
+	.Module in Angular refers to a place where you can group the components, directives, pipes, and services,
+	 which are related to the application.
+	 
+*Data binding: 
+	.Communication between typscript(business logic) code and html.
+	.types: string interpollation({{data}}), property binding([property]="data"), event binding((click)="function()"),
+	 two way binding([(ngModel)]="data").
+	 
+*Directives: 
+	.is instruction in the DOM(*ngIf, *ngFor, *ngSwitch).
+	.<p [ngStyle]="{backgoundColor: setColor()}" [ngClass]="{online: serverStatus ==='online'}">test</p>
+	
+*EventEmitter: 
+	.is an object which allows you to emit your own events.
+	
+*Life cycle hooks:
+	.ngOnChanges: Called whenever one or more data-bound input properties change.
+	.ngOnInit: called once the component initialized.
+	.ngDoCheck: called during every change detection run.
+	.ngAfterContentInit: called when finished initializing all content of the directive/component.
+	.ngAfterContentChecked: called every time the projected content has been checked.
+	.ngAfterViewInit: called after the component's view(and child view) has been initialized.
+	.ngAfterViewChecked: called every time the view(and child view)has been checked.
+	.ngOnDestroy: called once the component is about to be destroyed.
+		Perform cleanup logic, such as unsubscribing from observables and detaching event handlers
+		to avoid memory leaks.
+	
+*Data Sharing between components:
+	.https://fireship.io/lessons/sharing-data-between-angular-components-four-methods/
+	
+*@HostListener :
+	.use for an attribute directive,
+	 you place it on an existing element in your application and that element becomes
+	 the host element of the directive.
+	 to apply event on it we need HostListener.
+	 
+	.HostListener is a decorator in Angular that allows us to listen for events on the host element of a component or directive.
+	 It enables us to add an event handler to a DOM element and respond to events such as clicks, key changes, scrolls, and more.
+	 By binding a component method to a specific event,
+	 we can execute that method when the event is triggered.
+	 
+*@HostBinding :
+	.usefull for Binding host listener element property
+
+*Dependancy Injection :
+	.Class of ours is depend upon,
+	.We have to add dependancy instance in constructor to know angular that we need this instance for process.
+	
+*Polling
+    .Polling is a process by which the client continuously request data from the server without any user interaction.
+     It is mainly used to track the long running back-end process status.
+	 https://medium.com/weekly-webtips/polling-in-angular-how-to-use-rxjs-in-angular-for-polling-14c519f4c218
+	 
+*Observable :
+	.Observable is RXJS library.
+     They are frequently used in angular and are recommanded technique for event handling,
+	 asynchronous programing and handling multiple values.
+	 .Observables are a powerful feature used extensively in reactive programming to handle asynchronous
+	 operations and data streams.
+ 	 .Observables provide a way to subscribe to and receive notifications when new data or events are emitted,
+     enabling you to react to changes in real-time.
+	  
+*Observer :
+	.When we create an observable, we keep track on the observable using observer.
+	.observer continuosly listening to observable.
+	.observer has 3 frequently used methods -next(), error(), complete()
+
+*subscribe :
+	.in order to process data in observable we need to subscribe it.
+	.we can have multiple subscriber for any given observable.
+	
+*async pipe : 
+	.It subscribes to an observable or a promise and returns the last emitted value.
+	.Whenever a new value is emitted, it marks the component to be checked.
+	 That means Angular will run Change Detector for that component in the next cycle.
+	.It unsubscribes from the observable when the component gets destroyed.
+	
+*APP_INITIALIZER :
+	.APP_INITIALIZER is a Dependency Injection token that can use to
+	load configuration information before the app starts.
+	ex: 
+	1: BaseURL of Http calls Get list of base urls of existing HTTP calls who are kept in a different repository.
+	You have to fetch them before application starts.
+	2: Application Main Menus & Sub Menus
+	3: Features List with Enable / Disable option
+	4: Location restriction for your application
+	https://medium.com/@piyalidas.it/app-initializer-in-angular-realtime-example-ba36284f515
+	
+*environment specific configuration in angular
+	.https://angular.io/guide/build
+	.export const environment = {
+	  production: true,
+	  apiUrl: 'http://my-prod-url'
+	};
+	."configurations": {
+	  "development": {
+		"fileReplacements": [
+			{
+			  "replace": "src/environments/environment.ts",
+			  "with": "src/environments/environment.development.ts"
+			}
+		  ],
+	  
+*DevDependencies vs. Dependencies
+	.Dependencies: Refer to third-party libraries and other utilities necessary for your project
+	to run in a production or testing environment. These packages are required for your project
+	to function as intended when deployed. When you run npm install, npm looks at the dependencies
+	object in your package.json file and automatically installs all the dependencies listed there.
+	.ex: "dependencies": {
+		   "rxjs": "~6.4.0",
+		   "zone.js": "~0.9.1"
+		 } 
+	.DevDependencies: DevDependencies are a special category of npm packages that are only needed
+	during the development phase of your project. Unlike regular dependencies required to run your
+	application in production, devDependencies are used for tasks like testing,
+	building, and local development.
+	They are not included when your project is deployed to a production environment.
+	.ex: "devDependencies": {
+		   "eslint": "^7.14.0"
+		 }
+	
+*Subject : 
+    .is an observable, A special type of Observable which shares a single execution path among observers
+	.AsyncSubject : Emits its last value on completion
+	.BehaviorSubject : Requires an initial value and emits the current value to new subscribers
+	.ReplaySubject : "Replays" or emits old values to new subscribers
+	
+		let subject4 = new ReplaySubject<number>();
+		subject4.next(1);
+		subject4.next(2);
+	 
+		let subscription4 = subject4.subscribe( res  => {
+		  console.log('subscription: ' + res);
+		});
+		console.log('-----------------------------------');
+		subject4.next(3);
+		console.log('===================================');
+		
+		**OUTPUT**
+		subscription: 1
+		subscription: 2
+		-----------------------------------
+		subscription: 3
+		===================================
+	
+*@Pipe : 
+	.Allows you to transform output in your template
+	.Mostly used in template(HTML)
+	.@pipe({
+	  name: 'filter',
+	  pure: false
+	 })
+	.pure: false : inpure pipe: this can down performance in large list
+	.transform method
+
+*JIT/AOT:
+	  .By default, Angular uses JIT compilation in development mode.
+	  .Just-In-Time (JIT) compilation compiles your Angular application in the browser at runtime.
+	  .Since the compilation happens at runtime, it supports dynamic loading of components and modules.
+	    -Suitable for development.
+	    -Fast build and quick refresh.
+	    -Compiles in the browser at runtime.
+		-Supports dynamic loading.
+		
+	  .Ahead-Of-Time (AOT) compilation compiles your Angular application during the build process, before  the application is served to the browser. This means the compilation happens on the server side, and the browser receives a fully compiled application.
+		-Suitable for production.
+		-Optimized performance and smaller bundle size.
+		-Compiles during the build process.
+		-Catches template errors early and enhances security.
+
+*Preloading: 
+    .Loading modules(other than lazy loaded) in background.
+	.You can load specific feature also
+	
+
+	
+*Interceptors :
+	.intercept(req: HttpRequest<any>, next: HttpHandler):Observable<HttpEvent<sent>>{return next.handle(req)}
+	.can set headers, token, params in it for post and get
+	.HTTP Interceptors in Angular are classes that implement the HttpInterceptor interface.
+	 They can be used to perform various tasks related to HTTP requests and responses,
+	 such as adding headers, handling errors, modifying the request or response data,
+	 logging, authentication, etc.
+	
+*Dynamic Component	/ custom comoponent
+	.need createCustomElement from angular element package
+	.add entryComponent array in app.module in that add dynamic component name
+	.add selector in domSanitizer method
+	
+*Tap operator
+	.rxjs operator
+	The tap operator is used for performing side effects such as logging, debugging, or triggering external actions without altering the stream.
+	.when we map our response and wanted to check each response then we use tap.
+	.const objects = [
+	  { id: 1, name: 'Fabian' },
+	  { id: 2, name: 'Jan-Niklas' },
+	 ];
+
+	 const source = from(objects)
+	  .pipe(tap((item) => (item.name = item.name + '_2')))
+	  .subscribe((x) => console.log(x));
+	  
+	  **output**
+	  { id: 1, name: "Fabian_2" }
+      { id: 2, name: "Jan-Niklas_2" }
+	  
+*pluck operator
+    .when want to get our object -> property -> specific data only then we use pluck
+	.also work with nested value (pluck('sub', 'english'))
+	.const source = from(objects).pipe(pluck('name')).subscribe((res)=>{
+      console.log("pluck data: " + res)
+    })
+	
+	**output**
+	pluck data: Fabian
+    pluck data: Jan-Niklas
+	
+*mergeMap : 
+	.combination of mergeAll + map
+	.useful when we subscribe data and that subscription also return observable in that case to avoid nested subscription
+	 we use mergeMap
+	 
+*ForkJoin :
+	.forkJoin waits for each HTTP request to complete and group’s all the observables returned by each HTTP call into a
+	 single observable array and finally return that observable array.
+	.ngOnInit() {
+		let character = this.http.get('https://swapi.dev/api/people/1/');
+		let characterHomeworld = this.http.get('http://swapi.dev/api/planets/1/');
+
+		forkJoin([character, characterHomeworld]).subscribe(results => {
+		  // results[0] is our character
+		  // results[1] is our character homeworld
+		  results[0].homeworld = results[1];
+		  this.loadedCharacter = results[0];
+		});
+	  }
+	 
+*Angular Architecture
+	.Angular architecture identifies an main building blocks of angular 
+	.Modules - component - template - MetaData - Data Binding - directive - services - DI
+	
+*Query Parameters 
+	-parent-component
+	  parentToChildButton() {
+		this.router.navigate(['home/child'], { queryParams: { data: 'Hello from Parent!' } })
+	  }
+	-child-component
+	  data!: string | null;
+	  constructor(private route: ActivatedRoute) { }
+	  ngOnInit() {
+		this.route.queryParams.subscribe(params => {
+		  this.data = params['data'];
+		});
+	  }
+	
+*trackby:
+    .The trackBy function takes the index and the current item as arguments and returns the unique
+     identifier by which that item should be tracked.
+	.It will not refresh all the list, It will only add new index/element in the list without refreshing other.
+	
+*Angular Change Detection
+	.Default Stratergy, onPush Stratergy
+	.The basic mechanism of the change detection is to perform checks against two states, one is the current state,
+	 the other is the new state. If one of this state is different of the other, then something has changed,
+	 meaning we need to update (or re-render) the view.
+	
+*Web Workers
+	.Web workers allow you to run CPU-intensive computations in a background thread, freeing the
+	 main thread to update the user interface. If you find your application performs a lot of computations,
+	 such as generating CAD drawings or doing heavy geometrical calculations, using web workers can help increase
+	 your application's performance.
+	.ng g web-worker webworker
+	.If you need to immediately terminate a running worker from the main thread, you can do so by calling the
+	 worker’s terminate method:
+	  webWorker.terminate();
+	  
+*Progressive Web App(PWA)
+	.A Progressive Web Application (PWA) is a type of application software delivered through the web, built using HTML,
+	 CSS, and JavaScript.
+  	 It is intended to work on any platform that uses a standards-compliant browser.
+	.Internally, a PWA uses service worker browser API to provide access to some native features. Also,
+	 it gives you an app-like feel.
+     Cache storage is a really great feature that helps drastically improve page load time.
+	.Enhanced with service workers to work offline or on low-quality networks.
+	.Allow users to “keep” apps they find most useful on their home screen without the hassle of an app store.
+	 
+*ViewEncapsulation
+	.by default it is : encapsulation:ViewEncapsulation.Emulated
+	 which means parent component css will not affect child component
+	.encapsulation:ViewEncapsulation.none
+	 which means parent component css will affect child component
+	
+*SOLID
+	-Single Responsibility Principle (SRP): This principle states that a class or module should have only one responsibility. In Angular, this means that each component, service, or directive should have a single purpose and should not be responsible for multiple things.
+	-Open-Closed Principle (OCP): This principle states that a module or class should be open for extension but closed for modification. In Angular, this means that we should be able to extend the behavior of a component or service without modifying its source code.
+	-Liskov Substitution Principle (LSP): This principle states that any instance of a class should be able to be replaced by an instance of any of its subtypes without altering the correctness of the program. In Angular, this means that any child component should be able to replace its parent component without causing any issues.
+	-Interface Segregation Principle (ISP): This principle states that clients should not be forced to depend on interfaces they do not use. In Angular, this means that a component or service should define only the methods and properties that are relevant to its consumers.
+	-Dependency Inversion Principle (DIP): This principle states that modules should depend on abstractions, not on concrete implementations. In Angular, this means that a component or service should depend on interfaces or abstract classes instead of concrete classes or modules.
+	https://ionicstart.com/modules/basics-application-architecture/2/
+	
+*Route resolvers
+	-Route resolver is a feature that allows you to pre-fetch data or perform other tasks before a route
+ 	 is activated.
+	 
+*NgRx
+	NgRx is a set of reactive libraries for Angular that provides a framework for managing state and side effects in your Angular applications using the principles of Redux and reactive programming with RxJS. NgRx helps maintain a predictable state, enhances performance, and enables better debugging and testing capabilities.
+	Key Concepts of NgRx
+	Store: A central repository for application state. It is a single source of truth for your app’s state.
+	Actions: Plain objects that represent an event or intention to change the state.
+	Reducers: Pure functions that take the current state and an action, and return a new state.
+	Selectors: Functions that select and derive pieces of state from the store.
+	Effects: Side effects that handle tasks such as API calls, logging, etc., outside the reducers.
+
+
+
+********************************************** SAMPLE CODES *******************************************
+
+1: Component
+
+	import { Component, OnInit } from '@angular/core';
+		@Component({
+		  selector: 'app-home',
+		  templateUrl: './home.component.html',
+		  styleUrls: ['./home.component.scss']
+		})
+	 export class HomeComponent implements OnInit {
+	  constructor() { }
+	  ngOnInit(): void {
+	  }
+	}
+	
+2: Services
+ 
+	import { Injectable } from '@angular/core'; 
+
+	@Injectable({
+	  providedIn: 'root'
+	})
+	export class CommonService {
+
+	}
+	
+3: AuthGuard
+
+	.Angular’s route guards are interfaces which can tell the router whether or not it should allow navigation to 
+	a requested route. They make this decision by looking for a true or false return value from a class
+	which implements the given guard interface.
+	
+	In Angular, the CanActivate, CanActivateChild, CanDeactivate, and CanLoad guards are used to control navigation and ensure that users can only access certain routes under specific conditions.
+	
+	import { Injectable } from '@angular/core';
+	import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
+	import { Observable } from 'rxjs';
+ 
+	@Injectable({
+	  providedIn: 'root'
+	})
+   export class AuthGuard implements CanActivate {
+ 
+	  // Inject Router so we can hand off the user to the Login Page 
+	  constructor(private router: Router) {}
+	 
+	  canActivate(rout: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+		   if ( sessionStorage.getItem('x-auth') ){
+			 // Token from the LogIn is avaiable, so the user can pass to the route
+			 return true
+		   } else  {
+			 // Token from the LogIn is not avaible because something went wrong or the
+			 user wants to go over the url to the site
+			 // Hands the user to the LogIn page 
+			 alert("You are currently not logged in, please provide Login!")
+			 this.router.navigate( ["/login"] );
+			 return false
+		   }
+	   }
+	}
+	
+4: Interceptors
+
+    import { Injectable } from '@angular/core'; 
+	import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse } from '@angular/common/http';
+	@Injectable()
+	export class demoInterceptor implements HttpInterceptor {
+
+	  constructor(/*private authService: AuthService*/) { }
+
+	  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+		const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+
+		// Clone the request and attach the token
+		const authReq = req.clone({ setHeaders: { Authorization: authToken } });
+		return next.handle(authReq);
+	  }
+	}
+// error handling
+	// return next.handle(authReq).pipe(
+	//   map(res => {
+	//     console.log("Passed through the interceptor in response");
+	//     return res
+	//   }),
+	//   catchError((error: HttpErrorResponse) => {
+	//     let errMessage = '';
+	//     errMessage = `Error Code: ${error.status},  Message: ${error.message}`;
+	//     return throwError(errMessage);
+	//   })
+	// );
+	
+5: Subject
+
+      -Normal: subject =new Subject<datatype>();
+      -In service
+		  private selectedCategories: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+		  currentCategories = this.selectedCategories.asObservable();
+	  
+		   updateCategories(catData) {
+			this.selectedCategories.next(catData);
+		  }
+	  -In component
+		 this.dataPassService.updateCategories(filterObj);
+		 
+6: Pipe
+
+	import { Pipe, PipeTransform } from '@angular/core';
+	@Pipe({
+	  name: 'reverse',
+	  standalone: true
+	})
+	export class ReversePipe implements PipeTransform {
+	  transform(value: string, ...arg: []) {
+		return value.split('').reverse().join('');
+	  }
+	}
+		
+7: Directive
+
+	-In Directive 
+	import { Directive, ElementRef, HostListener } from '@angular/core';
+
+	@Directive({
+	  selector: '[appHighlight]',
+	  standalone: true
+	})
+	export class HighlightDirective {
+	  constructor(private eleRef: ElementRef) { }
+	  @HostListener('mouseover') onmouseover() {
+		this.eleRef.nativeElement.style.color = 'red';
+	  }
+	  @HostListener('mouseleave') onmouseleave() {
+		this.eleRef.nativeElement.style.color = 'black';
+	  }
+	  @HostListener('click', ['$event.target']) onclick(b:HTMLElement) {
+		this.eleRef.nativeElement.style.color = 'pink';
+		console.log(b.classList.value)
+	  }
+	}
+	
+	-In Component
+		<div class="demo-block" appHighlight></div>
+		
+8: Module
+
+	import { NgModule } from '@angular/core';
+	import { CommonModule } from '@angular/common';
+	@NgModule({
+	  declarations: [HomeComponent],
+	  imports: [CommonModule],
+	  providers: [],
+	  exports: [HomeComponent]
+	})
+	export class IndexModule { }
+	
+9: Debounce
+	HTML:
+    <input [formControl]="searchControl" placeholder="Search">
+    <p *ngIf="searchTerm">Searching for: {{ searchTerm }}</p>
+	
+	Component.ts:
+	export class SearchComponent implements OnInit {
+	  searchControl = new FormControl();
+	  searchTerm: string;
+
+	  ngOnInit() {
+		this.searchControl.valueChanges
+		  .pipe(debounceTime(300))
+		  .subscribe(value => {
+			this.searchTerm = value;
+			// Call your search API here
+		  });
+	  }
+	}
+
+10: Throttle
+	HTML:
+	<p>Window width: {{ width }}</p>
+
+	component.ts:
+	export class ResizeComponent {
+	  width: number;
+	  resizeSubject = new Subject();
+
+	  constructor() {
+		this.resizeSubject.pipe(throttleTime(1000)).subscribe(() => {
+		  this.width = window.innerWidth;
+		});
+	  }
+
+	  @HostListener('window:resize', ['$event'])
+	  onResize(event) {
+		this.resizeSubject.next();
+	  }
+	}

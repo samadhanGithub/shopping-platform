@@ -1,0 +1,385 @@
+*************************** Core JavaScript **************************************
+
+* Declaration and Initialization of variable:
+    . var name; --- declaration
+    . name = 'samadhan'; ---Initialization
+   
+* Rest Parameter:
+    . indefinite number of arguments as an array
+    . function display(a, ...args){
+		console.log(args[0]); // 20
+      }
+	  display(10,20,30,40);
+	 
+* Variable declare WITHOUT 'var' become global variable. 
+
+* Variable Hoisting:
+	. Its a default behavior of moving declaration at top of function
+	. variable can used before it has been declared
+	. var i = 'sama';
+	  console.log(i); //sama
+	  function display(){
+	   console.log(i); //undefined
+	   var i = 'kakade';
+	  }
+	  display();
+	  
+* Closure:
+	. A closure is the combination of a function and the lexical environment within which that function was declared. The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available. 
+	Closures are functions that have access to the outer (enclosing) function's variables—scope chain even after the outer function has returned.
+	. Is a function having access to parent scope. can access outside function data.
+	. 3 scopes are there: Local(own scope), outer function, global.
+	. let fun = ()=>{
+	    let i = 11;
+		return ()=>{
+		    console.log(i); // 11
+		  }
+	  };
+	  console.dir(fun());
+	  
+* Function Expression:
+	. Function assign to variable called function expression.
+	. can't call function expression before its definition.
+	. var temp = function(){
+		console.log('demo');
+	  };
+	  sample();
+	. Not hoisted in javascript.
+	
+* Anonymous Function:
+	. Allow creation of function which have no name;
+	. var demo = function(val){
+	   console.log('Value:'+ val);
+	  };
+	  demo(12);
+	  
+* Arrow Function:
+	. var arr = (a)=> {
+		console.log(a); //10
+	  };
+	  arr(10);
+
+* Immediatly invoked function(Self-executing function):
+	. (function(){console.log(a);})();
+	
+* Undefined:
+	. Accessing variable which doesn't exist or variable which doesn't initialized.
+	. var a;
+
+* Null:
+	. Empty value, kind of placeholder represent 'nothing'.
+	. var a = null;
+
+* const:
+	. we cant reassign its value.
+	
+* OOPs:
+	. its a model, we use objects, classes in programming instead of functions, methods.
+	
+* Object:
+    . collection of properties, property value can be a function.
+	. var obj = {
+	   exp1:100,
+	   exp2:200,
+	   total: function(){return(100+200);}
+	  }
+	  
+*Factory function:
+	. function returns object called factory function.
+	. we can create multiple instance of it.
+	. function mobile(){
+		return {
+			model:'Galexy',
+			price:function(){return "Price:5000Rs"}
+		 }
+	  }
+	. var newInstance = mobile();
+	
+*Prototype:
+	.The JavaScript prototype property allows you to add new properties and methods to object constructors.
+	.When an object is created in JavaScript, JavaScript engine adds a __proto__ property to the newly created object.
+	.function Bike(model,color){
+	  this.model = model,
+	  this.color = color
+	 }
+	 Bike.prototype.getDetails = function(){
+	  return this.model+" bike is "+this.color;
+	 }
+	 var bikeObj1 = new Bike(‘BMW’,’Black’);
+	 console.log(bikeObj1.getDetails());
+	
+	
+*join():
+	.Joins the array elements into string and return string.
+	
+*slice():
+	.Portion of array into a new array object selected begin to end.
+	.Original array will not change.
+
+*splice():
+	.Changes the content of array by removing existing elts and/ or adding new elts.
+	.Changes the original array.
+	. arr = ['one','two',three];
+	. arr.splice(0,0,'zero'); // will add zero to 0th index and return array.
+	. arr.splice(2,1); // will delete three and return array.
+	
+*indexOf():
+	.return -1 if item not found
+	.var position = arr.indexOf("two",0);//output:1, parameter: item name, starts with
+	  
+*unshift():
+	.Adds one or more elts at the begining of array and return new length.
+	
+*push():
+    .Adds one or more elts at the end of array and return new length.
+	
+*shift():
+    .Remove first element of array and return removed element.
+	
+*pop():
+    .Remove last element of array and return removed element.
+	
+*split():
+    .Breaks the string return array.
+	.arr.split(" ");
+	
+*substring():
+	.str="samadhan kakade";
+    .str.substring(3,6).// adh
+	.negative value not allowed
+	
+*substr():
+    .Parameter: start_index, number_of_characters
+	.str.substr(3, 5); // adhan
+	
+*number string:
+	. var a="50"
+	. var b=10
+	. var c=20
+	. a+b //5010
+	. a-b //40
+	. b+c+a //3050
+	. a+b+c //501020
+	. b+c+a //3050
+	. "Result:" + 10+20 //Result:1020
+	
+*parseFloat():
+	.parses string and returns floating point number.
+	.parseFloat("10"); // 10: integer
+	.parseFloat("10 years"); // 10: integer
+	.parseFloat("years 10"); // NaN
+	
+**************************************************************************************
+
+
+*************************** Advanced JavaScript **************************************
+
+*DOM:
+	.Document object modal is an API for HTML and XML documents
+	.With DOM we can create and build documents, navigate their structure,
+ 	 and Add, modify, delete elements and contents.
+	 
+*normalize():
+	.Removes empty text node, and joins adjacent text nodes.
+	
+*e.stopPropagation():
+	.prevent further propagation of the current event in capturing and bubbling.
+	
+*e.stopImmediatePropagation():
+	.prevent other listener of the same event from being called.
+	
+*e.preventDefault():
+	.if the event does not get explicitly handled, its default action should not be taken.
+	
+*callback function:
+	.callback function is function passed into another function as a argument.
+	
+*map:
+	.creates new array with the result of calling provided function on every elt in the calling array.
+
+*Destructuring:
+	.Extracting multiple values from data stored in array and object.
+	.Array: var a =['java','6months', 'Seed'];
+	        var[subject,duration,tutor] = a;
+			console.log(subject); // java
+			
+	.Object: var course = {
+				courseName:'javascript',
+				duration:'SixMonth',
+				tutor:'Seed',
+				student:{
+				  std1:'abc',
+				  std2:'xyz'
+				}
+			 }
+			 var{courseName,duration,tutor,student:{std1,std2}}=course;
+			 console.log(courseName); // javascript
+			 console.log(std1); // abc
+			 
+*promise():
+    .A Promise is data structure that holds a value that is promised to be ‘resolved’ in the future.
+      When it resolves you then can use the value, or catch if something went wrong.
+	.A Promise is an object representing the eventual completion or failure of an asynchronous operation.
+	.you attach callbacks, instead of passing callbacks into a function.
+	.Promises allow us to do things in the natural order. First, we run loadScript(script),
+	 and .then we write what to do with the result.
+	.javascript is single threaded language but in some cases we need asynchronus calls in that case we use promise.
+    .let pro = new Promise((resolve, reject) => {
+		  const a = 1 + 1;
+		  if (a == 2) {
+		   resolve("success");
+		  }
+		  reject("Failed");
+	 }).then((msg) => {
+		console.log(msg);  // success
+		return msg;
+	 }).then((msg) => {
+		console.log("Message: "+msg);  // Message: success
+		return msg;
+	 }).catch((msg) => {
+		console.log(msg);
+	 });
+	
+*async/await:
+	.Its way to handle response/promise.
+	.async: a function always returns a promise. Other values are wrapped in a resolved promise automatically.
+	.await: makes JavaScript wait until that promise settles and returns its result.
+	
+	.async getAllCategoriesDemo() {
+       const res = await fetch(`${this.serverUrl}/category/getAll`);
+       const data = await res.json();
+       return data;
+     }
+	
+*map()/filter():
+	.not change original array perform operation with existing values.
+	
+*call()/apply()/bind():
+	.call(): 
+		Takes separate parameters. Usefull to avoid redundant code we can use one common method of object in other object.
+		It calls the method, taking the owner object as an argument. The keyword this refers to the ‘owner’ of the function or the object it belongs to. We can call a method that can be used on different objects. 
+	  Example1: 
+		let obj = {
+			name:'samadhan',
+			details: function(){
+				console.log(this.name)
+			}
+		}
+		obj.details(); // samadhan
+		let obj2 = {
+			name:'sachin'
+		}
+		obj.details.call(obj2); //sachin
+		
+	  Example2:
+		function details2(state){
+		  console.log(this.name +" "+ state);
+		}
+		let obj = {
+			name:'sachin'
+		}
+		details2.call(obj, 'Maharashtra'); //sachin Maharashtra
+	
+	.apply(): 
+	   takes array as parameters.
+	   details2.call(obj, ['Maharashtra', 'UP']); //sachin Maharashtra UP
+	   
+	.bind(): 
+		We can create copy of our original function and invoke it as per requirement. we do not call original function directly in bind method
+		let newFun = details2.bind(obj, 'Maharashtra', 'UP'); //sachin Maharashtra UP
+		newFun();
+
+*Currying :
+	.Currying is a technique of evaluating the function with multiple arguments, into a sequence of function with a single argument.
+	.Mainly It helps to create a higher-order function. It is extremely helpful in event handling.
+	.var add =   function (a){
+                 return function(b){
+                       return function(c){
+                              return a+b+c;
+                              }        
+                        }
+                  }
+      console.log(add(2)(3)(4)); //output 9
+	  
+*Shallow copy / Deep copy:
+	.when we use = operator it changes original array/object including child value
+	.Shallow copy : In shallow copy nested element gets changed and top element remains unchanged.
+		.Array: concate, Array.from(), Array.slice(0), [...spreadArray]
+		.object: Object.assign({}, obj), {...spreadObj}
+    .Deep copy : In Deep copy we create seprate array/object which doesnt change original values.
+		.JSON.parse(JSON.Stringify(obj/arr));
+		
+*Prototypal Inheritence:
+	  . function mobile() {  //super class
+			this.a = 10;
+		}
+		mobile.prototype.z = 30;
+
+		function samsung() {  // sub class
+			mobile.call(this);
+			this.b = 20;
+		}
+		// prototype inheritance
+		samsung.prototype = Object.create(mobile.prototype);
+		samsung.prototype.constructor = samsung;
+
+		var s = new samsung();
+
+		console.log(s.a + "  data"); // 10
+		console.log(s.z + "  data"); // 30
+		console.log(s.b + "  data"); // 20
+		
+*Throttling:
+	.Throttling is a technique in which, no matter how many times the user fires the event, the attached function will be
+	 executed only once in a given time interval
+	 
+*Debouncing:
+	.In the debouncing technique, no matter how many times the user fires the event, the attached function will be executed 
+	 only after the specified time once the user stops firing the event.
+	 
+*Promise:
+
+*Closure/Lexical scope:
+https://medium.com/@dhruvpathak9305/javascript-closures-in-depth-explaination-154dd46c6bd0
+
+	-Lexical scope is the ability for a function scope to access variables from the parent scope.
+	-Lexical scoping defines a function's accessible scope, while closure enables a function to access   	variables even after its scope closes.
+	-the function defined in the closure ‘remembers’ the environment in which it was created.
+	
+	Example:
+	function numberGenerator() {
+	  // Local “free” variable that ends up within the closure
+	  var num = 1;
+	  function checkNumber() { 
+		console.log(num);
+	  }
+	  num++;
+	  return checkNumber;
+	}
+	var number = numberGenerator();
+	number(); // 2
+
+  
+OOPS:
+	1. Encapsulation
+	Encapsulation is the bundling of data (variables) and methods (functions) that operate on the data into a single unit, or class. It restricts direct access to some of the object's components, which is a means of preventing unintended interference and misuse of the data. Encapsulation can be achieved through access specifiers like private, protected, and public.
+
+	Private: Only accessible within the same class.
+	Protected: Accessible within the same class and derived classes.
+	Public: Accessible from any other code.
+
+	2. Abstraction
+	Abstraction is the concept of hiding the complex implementation details and showing only the essential features of the object. This helps in reducing programming complexity and effort.
+
+	3. Inheritance
+	Inheritance is the mechanism by which one class (child/subclass) can inherit attributes and methods from another class (parent/superclass). This promotes code reusability and establishes a relationship between classes.
+
+	4. Polymorphism
+	Polymorphism means "many shapes" and allows methods to do different things based on the object it is acting upon, even though they share the same name.
+	Polymorphism is the ability to create a class that has more than one form. Or in other words, classes have the same methods but different implementations.
+
+Design Patterns:
+
+SOLID:
+
+Event Loop:
