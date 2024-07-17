@@ -1,0 +1,107 @@
+About yourself:
+	I have over 7+ years of experience in the IT industry, with a strong background in frontend development and design.
+	Currently working with cybage software as senior software engineer. working on google ads project its digital advertisement project.
+	have working experience on project domains like e-learning, e-commerce, finance, real estate, digital advertising etc.
+	My technology stack is Html, CSS, SCSS, JS, jQuery, Typescript, Bootstrap, Angular 8+, ES6, Angular material, Material UI, PrimeNg.
+
+Project details:
+	Google Ads is a product that you can use to promote your business, help sell products or services, raise awareness, and increase traffic to your website. Google Ads accounts are managed online, so you can create and change your ad campaign at any time, including your ad text, settings, and budget.
+	we are using angular in frontend development and python as backend
+	and using Kintaro CMS tool for storing all the Multi-language content,
+	MVC architecture, DI, JWT for authentication and authorization,
+	Solid principals, Gerrit tools for code quality and review,
+	For ticket launch tracking we are using ASANA tool
+	we are following Agile scrum modal in project
+	We are using google cloud platform for cloud services
+
+Roles and responsibilities:
+	Estimate the stories, verifying requirements, creating the designs, development, unit test cases, publish the changes to production
+	supporting production environment, code review, bug fixes.
+
+Why should we hire you?
+	I am a good candidate for this position, as I have experience working in different work environments and have working experience on multiple domains. And I am confident that I can make a positive impact.
+
+Why do you want to join this company?
+	 Want to gain more experience in Health-care and banking domain and aspire to a leadership position in the future.
+	 I believe that my skills and experience align well with the goals of Tietoe, and I am excited about the opportunity to contribute to your team. Additionally, I am eager to learn from the talented professionals of Tietoe.
+	 and I see this role as a perfect fit for my career goals.
+
+What do you know about company?
+Tietoe:
+	this year’s company won AmbitionBox Employee Choice Awards
+	company is listed in top 4 rank to work for
+	Working on cloud, data and software engineering, Data analytics and AI,
+	5G Radio Access Network (RAN) technologies - high performance communication capabilities on the cloud and edge, 5G Network development
+	Banking / finance, healthcare domain.
+	
+Micheline:
+	is a largest tyre manufacturing company established in 1889.
+	Micheline one of headquarters are based in France.
+	and technology centre based out of Pune, Kharadi,
+	Apart from Tyres, Michelin is also into several other business lines like Roadmaps, GPS Tracking systems, Medical equipment, 3D Printing machines and many more.
+	The team at this site work on cutting edge technologies such as AI, Data Analytics, CRM, Mobile Apps, API, Design UX/UI, Cloud and other future ready technologies.
+
+Strength and weakness:
+Strength:
+	Problem-Solving Abilities - 
+	I have a strong ability to solve complex problems and I really enjoy it.
+	For example, recently we faced one issue which is directly impacting on client revenue, I tackled that issue and fixed it quickly. Received client appreciation for the same.
+	Adaptability: I am highly adaptable and have a proven track record of quickly learning new tools and processes.
+weakness:
+	I find it difficult to say no to requests, which can sometimes lead to an overloaded schedule. I am working on this by prioritizing my tasks.
+
+what motivates you most
+	Overcoming challenges: Taking on challenging work, finding ways to solve problems, or spotting flaws and errors
+	Recognition: Feeling appreciated by colleagues or getting praise
+
+biggest achievement till date
+	My bigest achievement I would say in my previous organisation when I was working on Angular project but suddenly have to shift on react native project with tight deadline, At that time initial days was very tough for me but I find way and completed that project before timeline and got employee of the month award.
+
+how you Handle work pressure 
+	I take presure as oportunity and utilise it doing hard work.
+	I believe hard work is the only option to overcome from presure.
+
+why are you looking for change?
+	Career growth:
+	want to take on more responsibility, learn new skills, and pursue a challenging role.
+	New opportunities:
+	Curious about exploring new opportunities and gaining diverse experiences.
+	
+why you haven't joined a company for which you already have an offer?
+	While I have an offer from Company, I am searching for role that offers the best opportunity for professional growth and learning.
+	Also I am particularly excited about the opportunity with Michelin because the role, company culture, projects, and offcourse Work life balance. I believe my skills and experiences align more closely with your team's needs and the company's mission.
+
+long term goals:
+	Gain leadership experience: 
+	At this stage of my career, my main goal is to gain hands-on experience new technologies and develop a strong foundation in software industry.
+
+Do you have any questions
+	I would like to know more about this position. What will be the role and responsibilities etc.
+
+Would you comfortable if ask you to work on C# or .net?
+	While my primary expertise lies in frontend development, I am always open to expanding my skill set and learning new technologies.
+	If given the opportunity, I would be excited to deepen my knowledge in these areas. I believe that having a solid understanding of backend technologies can enhance my effectiveness as a frontend developer.
+	I have some foundational knowledge of C#/.NET from previous projects,
+	I believe my strong problem-solving skills and understanding of software development principles will help me quickly get up to speed.
+	
+Technical: Optimisation, SOLID, OOPS, Design patterns
+
+OOPS:
+	1. Encapsulation
+	Encapsulation is the bundling of data (variables) and methods (functions) that operate on the data into a single unit, or class. It restricts direct access to some of the object's components, which is a means of preventing unintended interference and misuse of the data. Encapsulation can be achieved through access specifiers like private, protected, and public.
+
+	Private: Only accessible within the same class.
+	Protected: Accessible within the same class and derived classes.
+	Public: Accessible from any other code.
+
+	2. Abstraction
+	Abstraction is the concept of hiding the complex implementation details and showing only the essential features of the object. This helps in reducing programming complexity and effort.
+
+	3. Inheritance
+	Inheritance is the mechanism by which one class (child/subclass) can inherit attributes and methods from another class (parent/superclass). This promotes code reusability and establishes a relationship between classes.
+
+	4. Polymorphism
+	Polymorphism means "many shapes" and allows methods to do different things based on the object it is acting upon, even though they share the same name.
+	Polymorphism is the ability to create a class that has more than one form. Or in other words, classes have the same methods but different implementations.
+	
+SOLID:
