@@ -255,6 +255,12 @@
 	4: Location restriction for your application
 	https://medium.com/@piyalidas.it/app-initializer-in-angular-realtime-example-ba36284f515
 	
+*Angular Library:
+	If you have developed functionality that is suitable for reuse, you can create your libraries. These libraries can be used locally in your workspace, or you can publish them as npm packages to share with other projects or other Angular developers.
+	A library must be imported and used in an app.
+	
+	
+	
 *environment specific configuration in angular
 	.https://angular.io/guide/build
 	.export const environment = {
@@ -479,8 +485,30 @@
 	Reducers: Pure functions that take the current state and an action, and return a new state.
 	Selectors: Functions that select and derive pieces of state from the store.
 	Effects: Side effects that handle tasks such as API calls, logging, etc., outside the reducers.
+	Example: 
+	
+	
 
 
+*SonarQube:
+	SonarQube reduces the risk of software development within a very short amount of time. It detects bugs in the code automatically and alerts developers to fix them before rolling it out for production. SonarQube also highlights the complex areas of code that are less covered by unit tests
+	
+*Security:
+	-Use OAuth: Implement standardized authentication protocols like OAuth to secure user authentication.
+	-JWT Tokens: Use JSON Web Tokens (JWT) for securely transmitting information between parties.
+	-Role-Based Access Control (RBAC): Implement RBAC to restrict access based on user roles and  permissions.
+	-Enforce HTTPS: Ensure all communication between the client and server is over HTTPS to prevent eavesdropping and man-in-the-middle attacks.
+	-CSP (Content Security Policy): Implement CSP headers to mitigate XSS attacks by specifying allowed content sources.
+	-Use Angular's HTTP Client: Always use Angular’s HttpClient module for HTTP requests, which includes built-in XSRF protection.
+	-CI/CD Security: Integrate security checks into the CI/CD pipeline using tools like Snyk, SonarQube, and OWASP ZAP.
+	
+*Auth0:
+	-Auth0 is a flexible, drop-in solution to add authentication and authorization services to your applications. It provides a comprehensive platform to secure your applications and APIs, manage users, and gain insights into your identity infrastructure.
+	-Supports multiple identity providers, including social (e.g., Google, Facebook), enterprise (e.g., Active Directory, LDAP), and custom database connections.
+	-Multi-Factor Authentication (MFA):
+	 Enhances security by requiring additional verification steps.
+	 Supports various MFA methods, including SMS, email, push notifications, and authenticator apps.
+	-Enables users to log in without a password, using email or SMS.
 
 ********************************************** SAMPLE CODES *******************************************
 
@@ -678,3 +706,12 @@
 		this.resizeSubject.next();
 	  }
 	}
+
+
+******
+Monkey patching
+Image optimising
+zone polution
+Angular Security
+function composition
+multi content projection

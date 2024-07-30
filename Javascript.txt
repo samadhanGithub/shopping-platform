@@ -377,6 +377,33 @@ OOPS:
 	4. Polymorphism
 	Polymorphism means "many shapes" and allows methods to do different things based on the object it is acting upon, even though they share the same name.
 	Polymorphism is the ability to create a class that has more than one form. Or in other words, classes have the same methods but different implementations.
+	
+*Function composition: 
+	Function composition in JavaScript is the process of combining two or more functions to produce a new function. The new function applies the original functions in sequence, where the output of one function becomes the input of the next. This is a powerful technique for creating complex functionality by combining simple, reusable functions.
+	Example:
+	const add = (x) => x + 2;
+	const multiply = (x) => x * 3;
+	// Compose add and multiply functions
+	const composedFunction = (x) => multiply(add(x));
+	console.log(composedFunction(2)); // Output: 12
+	
+*Monkey patching:
+	Monkey patching is a technique used in dynamic programming languages, like JavaScript, Python, and Ruby, to modify or extend the behavior of libraries, modules, or classes at runtime. It allows you to change or add new methods or properties to existing objects or classes without altering their original source code.
+	
+	Use Cases for Monkey Patching:
+	Bug Fixes: Temporarily fix a bug in a third-party library until an official fix is released.
+	Feature Enhancement: Add new functionality to existing libraries or classes.
+	Testing and Mocking: Override functions or methods for testing purposes to isolate components or simulate different scenarios.
+	
+	Example:
+	// Original Array prototype
+	console.log(Array.prototype.sum); // undefined
+	// Monkey patching Array prototype
+	Array.prototype.sum = function() {
+		return this.reduce((acc, curr) => acc + curr, 0);
+	};
+	const arr = [1, 2, 3, 4, 5];
+	console.log(arr.sum()); // Output: 15
 
 Design Patterns:
 

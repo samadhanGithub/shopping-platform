@@ -1,0 +1,43 @@
+NgRx
+Life Cycle
+Angular Libraries
+Auth2 auth0
+Custom module/components
+JWT/Security
+Signals
+Subjects/observable
+Unit testing/Cyprus
+Module fedration
+Angular version new features
+Version Migration
+Zone in angular
+internationalization (i18n)
+Storybook
+Angular and Accessibility
+
+github/gitlab/gitActions
+Generators
+GCP, Pipeline
+UX team collaboration
+Multi content projection
+Leadership
+Why micheline
+
+ngValueAccessor
+ngxtreeview
+
+formgroup directives 
+monkey patching 
+function composition 
+multi content projection
+zone pollution 
+generator 
+content outlet
+change detection 
+controll container 
+Security
+angular schematic
+dynamic component 
+custom decorater 
+
+https://kursatcoskun.medium.com/publishing-packages-to-private-npm-registry-using-angular-storybook-verdaccio-38affd590173
