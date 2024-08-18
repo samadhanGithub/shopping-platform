@@ -25,7 +25,7 @@
 	  display();
 	  
 * Closure:
-	. A closure is the combination of a function and the lexical environment within which that function was declared. The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available. 
+	.A closure is the combination of a function and the lexical environment within which that function was declared. The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available. 
 	Closures are functions that have access to the outer (enclosing) function's variables—scope chain even after the outer function has returned.
 	. Is a function having access to parent scope. can access outside function data.
 	. 3 scopes are there: Local(own scope), outer function, global.
@@ -72,9 +72,6 @@
 
 * const:
 	. we cant reassign its value.
-	
-* OOPs:
-	. its a model, we use objects, classes in programming instead of functions, methods.
 	
 * Object:
     . collection of properties, property value can be a function.
@@ -406,6 +403,7 @@ OOPS:
 	console.log(arr.sum()); // Output: 15
 
 Design Patterns:
+	
 
 SOLID:
 
