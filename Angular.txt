@@ -22,7 +22,9 @@
 	 
 	-pako.js - to compress api payload size
 	 Using Pako in an Angular application involves installing the library, importing it into your components or services, and then using the deflate and inflate methods to compress and decompress data. This can be particularly useful for optimizing data transfer and storage.
-	 
+	
+	-Avoid zone pollution
+	
 	-Memoization : https://www.youtube.com/watch?v=WbwP4w6TpCk
 	  In computing, memoization or memoisation is an optimization technique used primarily to speed up computer programs by storing the results of expensive function calls to pure functions and returning the cached result when the same inputs occur again.
 	  Memoization eliminates redundant computations by storing and reusing previously calculated results.
@@ -256,11 +258,84 @@
 	https://medium.com/@piyalidas.it/app-initializer-in-angular-realtime-example-ba36284f515
 	
 *Angular Library:
-	If you have developed functionality that is suitable for reuse, you can create your libraries. These libraries can be used locally in your workspace, or you can publish them as npm packages to share with other projects or other Angular developers.
-	A library must be imported and used in an app.
+	-Angular libraries are reusable code modules that can be shared across multiple Angular projects. 
+	 They can contain components, services, directives, and other types of code, and can be easily imported and used in other projects as needed.‌
+	-To make library code reusable we must define a public API in public-api.ts for it. 
+	 This “user layer”   defines what is available to consumers of your library.
+	 public-api.ts - export your services, components in this file
+	-Verdaccio is a simple, zero-config-required local private NPM registry.
 	
+	With the workspace set up, we can then generate a new library project using the following command:
+	ng generate library my-lib
+	 
+	Library Code (1)
+	This folder contains the code of the library, currently a component and service. This is the main and only entry point of your library right now.
+
+	Public API (2)
+	The file contains the public API of the library. It exports all members that should be available to the outside world. That's the Angular component and service inside the src/lib/ folder.
+
+	ng-package.json (3)
+	The file contains the configuration for ng-packagr. It specifies the path of the build output and the entry file which points to src/public-api.ts.
+
+	package.json (4)
+	This is the package.json of your library (not to be confused with the package.json of your Angular workspace in the root folder). Here you specify the name, version and dependencies of your library.
+  
+    .npmrc file:
+	  registry=https://registry.npmjs.org/
+	  loglevel=warn
+	  save-exact=true
+	  
+	  -Registry Configuration: You can use the .npmrc file to specify the registry where npm should fetch packages from. For example, you might want to use a private registry or a mirror of the default registry.
+	  -Scoped Package Configuration: If you’re using scoped packages (packages with a name that starts with @scope/), you can set configuration options specific to those packages.
+	  -Authentication: You can use the .npmrc file to store authentication tokens or credentials for  private registries or services.
+
+*Angular Micro-frontend:
+	In Angular, the term "micro front-end" refers to the architectural strategy of dividing a large, massive Angular application into more manageable, independent front-end modules. Each module can be built, deployed, and maintained independently, and each represents a particular feature or functionality of the program.
 	
+	Module Federation:
+	https://www.angularminds.com/blog/how-to-build-micro-front-ends-using-module-federation-in-angular
+	WebPack5 introduced Module Federation to integrate multiple micro front-ends and is one of the most popular ways to handle micro frontend architecture. Module Federation allows developers to combine separate apps into one Angular application where each separate app is loaded through lazy loading.
 	
+	 install Module Federation on all three applications using the command
+	 npm i @angular-architects/module-federation@16.0.4
+	 
+	 add module-federation for all three applications using the command:
+	 ng add @angular-architects/module-federation
+	 This command will add the webpack.config.js, webpack.prod.config.js  and bootstrap.ts files to our application and also modify other existing files as shown in the below image.
+	 
+	 we have to expose the modules from our micro-frontends that we aim to use across our Host (homepage) application. So let’s go ahead and expose the module that we just created in "webpack.config.js":
+	 
+	 //webpack.config.js
+	 //For remotes (please Add this 5 Line)
+	  name: "billing",
+      filename: "remoteEntry.js",
+      exposes: {
+        './BillingModule': './/src/app/billing/billing.module.ts',
+      }, 
+	  
+	  //Host app
+	  //For hosts (here we add our remote Applications)
+       remotes: {
+         "billing": "billing@http://localhost:4300/remoteEntry.js",
+         "report": "report@http://localhost:4400/remoteEntry.js",
+       },
+	   
+	   //In host Routes(homepage)
+	    {
+		   path: 'billing',
+		   loadChildren: () => {
+			 return loadRemoteModule({
+			   remoteEntry: "http://localhost:4300/remoteEntry.js",
+			   remoteName: 'billing',
+			   exposedModule: './BillingModule'
+			 }).then(m => m.BillingModule).catch(error =>
+		    console.log('Error=>', error));
+		   }
+		},
+		
+*Angular Hydration:
+	https://www.angularminds.com/blog/understanding-angular-hydration-how-it-works-and-its-benefits
+
 *environment specific configuration in angular
 	.https://angular.io/guide/build
 	.export const environment = {
@@ -488,11 +563,91 @@
 	Example: 
 	
 	
+	// src/app/store/counter.actions.ts
+	import { createAction } from '@ngrx/store';
 
+	export const increment = createAction('[Counter] Increment');
+	export const decrement = createAction('[Counter] Decrement');
+	export const reset = createAction('[Counter] Reset');
+	
+	// src/app/store/counter.reducer.ts
+	import { createReducer, on } from '@ngrx/store';
+	import { increment, decrement, reset } from './counter.actions';
+
+	export const initialState = 0;
+
+	const _counterReducer = createReducer(
+	  initialState,
+	  on(increment, (state) => state + 1),
+	  on(decrement, (state) => state - 1),
+	  on(reset, (state) => 0)
+	);
+
+	export function counterReducer(state, action) {
+	  return _counterReducer(state, action);
+	}
+	
+	// src/app/store/counter.selectors.ts
+	import { createSelector, createFeatureSelector } from '@ngrx/store';
+
+	export const selectCounterState = createFeatureSelector<number>('counter');
+
+	export const selectCount = createSelector(
+	  selectCounterState,
+	  (state: number) => state
+	);
+	
+	// src/app/store/counter.effects.ts
+	import { Injectable } from '@angular/core';
+	import { Actions, createEffect, ofType } from '@ngrx/effects';
+	import { increment, decrement, reset } from './counter.actions';
+	import { tap } from 'rxjs/operators';
+
+	@Injectable()
+	export class CounterEffects {
+	  constructor(private actions$: Actions) {}
+
+	  logActions$ = createEffect(
+		() =>
+		  this.actions$.pipe(
+			ofType(increment, decrement, reset),
+			tap((action) => console.log('Action received:', action))
+		  ),
+		{ dispatch: false }
+	  );
+	}
+	
+	//use In Component
+	 constructor(private store: Store) {
+		this.count$ = this.store.select(selectCount);
+	  }
+
+	  increment() {
+		this.store.dispatch(increment());
+	  }
+
+	  decrement() {
+		this.store.dispatch(decrement());
+	  }
 
 *SonarQube:
 	SonarQube reduces the risk of software development within a very short amount of time. It detects bugs in the code automatically and alerts developers to fix them before rolling it out for production. SonarQube also highlights the complex areas of code that are less covered by unit tests
+
+*zone pollution:
+	Zone.js is a signaling mechanism that Angular uses to detect when an application state might have changed. It captures asynchronous operations like setTimeout, network requests, and event listeners. Angular schedules change detection based on signals from Zone.js.
 	
+	In some cases scheduled tasks or microtasks don’t make any changes in the data model, which makes running change detection unnecessary.
+	In such cases, you can instruct Angular to avoid calling change detection for tasks scheduled by a given piece of code using NgZone.
+	
+	import { Component, NgZone, OnInit } from '@angular/core';
+	@Component(...)
+	class AppComponent implements OnInit {
+	  constructor(private ngZone: NgZone) {}
+	  ngOnInit() {
+		this.ngZone.runOutsideAngular(() => setInterval(pollForUpdates), 500);
+	  }
+	}
+
 *Security:
 	-Use OAuth: Implement standardized authentication protocols like OAuth to secure user authentication.
 	-JWT Tokens: Use JSON Web Tokens (JWT) for securely transmitting information between parties.
